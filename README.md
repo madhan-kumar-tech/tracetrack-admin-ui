@@ -45,7 +45,7 @@ src/
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - pnpm (recommended for better performance)
 
 ### Installation
@@ -69,15 +69,36 @@ pnpm test:ui
 # Lint code
 pnpm lint
 
-# Fix linting issues
-pnpm lint:fix
-
 # Format code
 pnpm format
 
-# Analyze bundle
-pnpm analyze
+# Interactive commit (recommended)
+pnpm commit
 ```
+
+### Git Hooks
+
+This project uses Husky for automated code quality checks:
+
+- **Pre-commit**: Runs ESLint, Prettier, and related tests on staged files
+- **Commit-msg**: Validates conventional commit message format
+- **Pre-push**: Runs full test suite before pushing
+
+See [HOOKS.md](./HOOKS.md) for detailed information about git hooks and commit conventions.
+
+# Fix linting issues
+
+pnpm lint:fix
+
+# Format code
+
+pnpm format
+
+# Analyze bundle
+
+pnpm analyze
+
+````
 
 ## 🧪 Testing
 
@@ -94,7 +115,7 @@ pnpm test:watch
 
 # Generate coverage report
 pnpm test:coverage
-```
+````
 
 ## 📋 Code Quality
 
@@ -106,6 +127,7 @@ pnpm test:coverage
 ## 🔧 Configuration
 
 ### Tailwind CSS v4
+
 Custom theme configuration in `src/index.css` using `@theme` directive:
 
 ```css
@@ -116,11 +138,13 @@ Custom theme configuration in `src/index.css` using `@theme` directive:
 ```
 
 ### State Management
+
 - **Zustand** for client-side state
 - **TanStack Query** for server state management
 - Devtools enabled in development
 
 ### Forms
+
 - **React Hook Form** for performant forms
 - **Zod** for schema validation
 - **@hookform/resolvers** for integration
@@ -152,8 +176,8 @@ You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-re
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import reactX from 'eslint-plugin-react-x';
+import reactDom from 'eslint-plugin-react-dom';
 
 export default tseslint.config([
   globalIgnores(['dist']),
@@ -174,5 +198,5 @@ export default tseslint.config([
       // other options...
     },
   },
-])
+]);
 ```
