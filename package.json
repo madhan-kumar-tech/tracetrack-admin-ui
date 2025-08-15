@@ -15,7 +15,10 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "preview": "vite preview",
-    "analyze": "vite-bundle-analyzer"
+    "analyze": "vite-bundle-analyzer",
+    "prepare": "husky",
+    "pre-commit": "lint-staged",
+    "commit": "git-cz"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -36,6 +39,8 @@
     "zustand": "^5.0.7"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.33.0",
     "@tailwindcss/cli": "^4.1.12",
     "@tanstack/react-query-devtools": "^5.85.3",
@@ -46,16 +51,38 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "husky": "^9.1.7",
     "jsdom": "^26.1.0",
+    "lint-staged": "^16.1.5",
     "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2",
     "vite-bundle-analyzer": "^1.2.1",
     "vitest": "^3.2.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ],
+    "*.{ts,tsx}": [
+      "vitest related --run"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
