@@ -12,7 +12,7 @@ function App() {
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<HomePage />} />
-          
+
           {/* Protected routes - all nested under AuthenticatedLayout */}
           <Route path="/admin" element={<AuthenticatedLayout />}>
             <Route path="dashboard" element={<DashboardPage />} />
@@ -23,15 +23,23 @@ function App() {
             {/* <Route path="users" element={<UsersPage />} /> */}
             {/* <Route path="settings" element={<SettingsPage />} /> */}
           </Route>
-          
+
           {/* Redirect /dashboard to /admin/dashboard for backwards compatibility */}
-          <Route path="/dashboard" element={<Navigate to="/admin/dashboard" replace />} />
-          
+          <Route
+            path="/dashboard"
+            element={<Navigate to="/admin/dashboard" replace />}
+          />
+
           {/* Catch all route - redirect to home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
-      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
+      {import.meta.env.DEV && (
+        <ReactQueryDevtools
+          data-testid="react-query-devtools"
+          initialIsOpen={false}
+        />
+      )}
     </QueryClientProvider>
   );
 }

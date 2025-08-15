@@ -12,16 +12,14 @@ export function AuthenticatedLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div data-testid="authenticated-layout" className="min-h-screen bg-gray-50">
       <Sidebar />
       <Header />
-      
+
       {/* Main Content */}
-      <main className={`
-        pt-16 transition-all duration-300
-        ${isCollapsed ? 'lg:ml-16' : 'lg:ml-64'}
-        ml-0
-      `}>
+      <main
+        className={`pt-16 transition-all duration-300 ${isCollapsed ? 'lg:ml-16' : 'lg:ml-64'} ml-0`}
+      >
         <div className="p-4 lg:p-6">
           <Breadcrumb />
           <Outlet />
