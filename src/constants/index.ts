@@ -1,9 +1,4 @@
-import { 
-  Users, 
-  Activity,
-  DollarSign,
-  AlertCircle
-} from 'lucide-react';
+import { Users, Activity, DollarSign, AlertCircle } from 'lucide-react';
 
 // App Constants
 export const APP_NAME = 'TraceTrack Admin';
@@ -11,9 +6,9 @@ export const APP_NAME = 'TraceTrack Admin';
 // Menu Items
 export const MENU_ITEMS = {
   DASHBOARD: 'Dashboard',
-  REQUESTS: 'Requests', 
+  REQUESTS: 'Requests',
   CLIENTS: 'Clients',
-  LOGOUT: 'Logout'
+  LOGOUT: 'Logout',
 } as const;
 
 // Routes
@@ -25,7 +20,7 @@ export const ROUTES = {
   TOTAL_USERS: '/admin/dashboard/total-users',
   ACTIVE_SESSIONS: '/admin/dashboard/active-sessions',
   REVENUE: '/admin/dashboard/revenue',
-  SUPPORT_TICKETS: '/admin/dashboard/support-tickets'
+  SUPPORT_TICKETS: '/admin/dashboard/support-tickets',
 } as const;
 
 // Dashboard Cards
@@ -74,9 +69,9 @@ export const DASHBOARD_CARDS = [
 
 // User Roles
 export const USER_ROLES = {
-  ADMIN: 'Administrator',
+  ADMIN: 'Admin',
   MANAGER: 'Manager',
-  USER: 'User'
+  USER: 'User',
 } as const;
 
 // Table Pagination

@@ -2,8 +2,9 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { queryClient } from './config/query-client';
-import { HomePage, DashboardPage, DetailPage } from './pages';
+import { HomePage, DetailPage } from './pages';
 import { AuthenticatedLayout } from './components/layouts';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
 
           {/* Protected routes - all nested under AuthenticatedLayout */}
           <Route path="/admin" element={<AuthenticatedLayout />}>
-            <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="dashboard/:type" element={<DetailPage />} />
             <Route path="requests" element={<div>Requests Page</div>} />
             <Route path="clients" element={<div>Clients Page</div>} />

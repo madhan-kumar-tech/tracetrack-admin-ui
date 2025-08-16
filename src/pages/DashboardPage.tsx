@@ -1,83 +1,123 @@
-import { DashboardCard, Table } from '../components/ui';
-import { DASHBOARD_CARDS } from '../constants';
+import { Table, Button } from '../components/ui';
+import vehicleIcon from '../assets/vehicle_icon.svg';
+import activeVehiclesIcon from '../assets/active_vehicles.svg';
+import stocksIcon from '../assets/stocks_icon.svg';
+import expiredVehiclesIcon from '../assets/expired_vehicles.svg';
+import inactiveVehiclesIcon from '../assets/inactive_vehicles.svg';
+import addNewIcon from '../assets/add_new_icon.svg';
 
-// Sample data for the table
-const sampleData = [
+// Sample data for the New Requests table
+const newRequests = [
   {
-    id: 1,
-    name: 'John Doe',
-    email: 'john@example.com',
-    role: 'Admin',
-    status: 'Active',
+    username: 'Vinith Kumar',
+    email: 'vinithmatt1356@gmail.com',
+    mobile: '9856231445',
+    imei: '258963124578',
+    vehicleNumber: 'TN40 AV 2638',
+    action: 'Proceed',
   },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    email: 'jane@example.com',
-    role: 'User',
-    status: 'Active',
-  },
-  {
-    id: 3,
-    name: 'Bob Johnson',
-    email: 'bob@example.com',
-    role: 'Manager',
-    status: 'Inactive',
-  },
-  {
-    id: 4,
-    name: 'Alice Brown',
-    email: 'alice@example.com',
-    role: 'User',
-    status: 'Active',
-  },
-  {
-    id: 5,
-    name: 'Charlie Wilson',
-    email: 'charlie@example.com',
-    role: 'Admin',
-    status: 'Active',
-  },
+  // ...more rows as needed
 ];
 
 const columns = [
-  { key: 'id' as const, label: 'ID' },
-  { key: 'name' as const, label: 'Name' },
-  { key: 'email' as const, label: 'Email' },
-  { key: 'role' as const, label: 'Role' },
+  { key: 'username' as const, label: 'Username' },
+  { key: 'email' as const, label: 'Reg Mail ID' },
+  { key: 'mobile' as const, label: 'Mobile No.' },
+  { key: 'imei' as const, label: 'IMEI' },
+  { key: 'vehicleNumber' as const, label: 'Vehicle Number' },
   {
-    key: 'status' as const,
-    label: 'Status',
-    render: (value: string | number) => (
-      <span
-        className={`rounded-full px-2 py-1 text-xs font-medium ${
-          value === 'Active'
-            ? 'bg-green-100 text-green-800'
-            : 'bg-red-100 text-red-800'
-        }`}
+    key: 'action' as const,
+    label: 'Action',
+    render: (value: string) => (
+      <Button
+        variant="ghost"
+        className="text-primary-700 px-0 font-semibold hover:underline"
+        onClick={() => {}}
       >
         {value}
-      </span>
+      </Button>
     ),
+  },
+];
+
+const dashboardCards = [
+  {
+    id: 'total-vehicles',
+    title: 'Total Vehicles',
+    value: '1686',
+    icon: vehicleIcon,
+    subtitle: '',
+  },
+  {
+    id: 'active-vehicles',
+    title: 'Active Vehicles',
+    value: '989',
+    icon: activeVehiclesIcon,
+    subtitle: '',
+  },
+  {
+    id: 'stocks',
+    title: 'Stock',
+    value: '250',
+    icon: stocksIcon,
+    subtitle: '',
+  },
+  {
+    id: 'expired-vehicles',
+    title: 'Expired Vehicles',
+    value: '579',
+    icon: expiredVehiclesIcon,
+    subtitle: '',
+  },
+  {
+    id: 'inactive-vehicles',
+    title: 'Inactive Vehicles',
+    value: '118',
+    icon: inactiveVehiclesIcon,
+    subtitle: '',
   },
 ];
 
 export function DashboardPage() {
   return (
-    <div data-testid="dashboard-page" className="space-y-6">
+    <div data-testid="dashboard-page" className="space-y-8">
       {/* Dashboard Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-        {DASHBOARD_CARDS.map(card => (
-          <DashboardCard key={card.id} {...card} />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6">
+        {dashboardCards.map(card => (
+          <div
+            key={card.id}
+            className="flex min-h-[120px] flex-col items-start justify-between rounded-lg bg-white p-6 shadow"
+          >
+            <img src={card.icon} alt={card.title} className="mb-4 h-8 w-8" />
+            <div>
+              <div className="text-2xl font-bold text-gray-900">
+                {card.value}
+              </div>
+              <div className="mt-1 text-sm text-gray-500">{card.title}</div>
+            </div>
+          </div>
         ))}
+        {/* Add New Device Card */}
+        <div className="flex min-h-[120px] cursor-pointer flex-col items-center justify-center rounded-lg bg-white shadow transition-shadow hover:shadow-md">
+          <button className="flex h-full w-full flex-col items-center justify-center py-6">
+            <img
+              src={addNewIcon}
+              alt="Add New Device"
+              className="mb-2 h-8 w-8"
+            />
+            <span className="text-primary-700 text-lg font-semibold">
+              Add New Device
+            </span>
+          </button>
+        </div>
       </div>
 
-      {/* Table Section */}
+      {/* New Requests Table Section */}
       <div className="overflow-hidden rounded-lg bg-white shadow">
-        <div className="border-b border-gray-200 px-4 py-3">
-          <h3 className="text-lg font-medium text-gray-900">Recent Users</h3>
+        <div className="border-b border-gray-200 px-6 py-4">
+          <h3 className="text-xl font-bold text-gray-900">New Requests</h3>
         </div>
-        <Table data={sampleData} columns={columns} />
+        <Table data={newRequests} columns={columns} />
       </div>
     </div>
   );

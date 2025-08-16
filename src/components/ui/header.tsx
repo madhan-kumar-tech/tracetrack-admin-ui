@@ -1,52 +1,49 @@
-import { Search, ChevronDown, Menu } from 'lucide-react';
+import { Search, Menu } from 'lucide-react';
 import { useAuthStore } from '../../stores/auth';
 import { useSidebarStore } from '../../stores/sidebar';
 import { SEARCH_PLACEHOLDER, USER_ROLES } from '../../constants';
+import GradientText from './gradientText';
 
 export function Header() {
   const { user } = useAuthStore();
   const { isCollapsed, toggleMobile } = useSidebarStore();
 
   return (
-    <header className={`
-      fixed top-0 right-0 h-16 bg-white border-b border-gray-200 z-40 transition-all duration-300
-      ${isCollapsed ? 'lg:left-16' : 'lg:left-64'}
-      left-0
-    `}>
-      <div className="h-full px-4 lg:px-6 flex items-center justify-between">
-        {/* Mobile Menu Button & Search */}
-        <div className="flex items-center space-x-4 flex-1">
-          {/* Mobile Menu Button */}
+    <header
+      className={`fixed top-0 right-0 z-40 h-16 border-b border-gray-200 bg-white transition-all duration-300 ${isCollapsed ? 'lg:left-16' : 'lg:left-64'} left-0`}
+    >
+      <div className="flex h-full w-full items-center justify-between px-4 lg:px-6">
+        {/* Left side: Mobile Menu Button */}
+        <div className="flex items-center">
           <button
             onClick={toggleMobile}
-            className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+            className="rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 lg:hidden"
           >
             <Menu className="h-5 w-5" />
           </button>
-
-          {/* Search Bar */}
-          <div className="flex-1 max-w-lg">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder={SEARCH_PLACEHOLDER}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-              />
-            </div>
-          </div>
         </div>
 
-        {/* User Profile */}
-        <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-50 cursor-pointer">
+        {/* Right side: Search + User */}
+        <div className="flex items-center space-x-6">
+          {/* Search Bar */}
+          <div className="relative w-134">
+            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-[#000424]" />
+            <input
+              type="text"
+              placeholder={SEARCH_PLACEHOLDER}
+              className="w-full rounded-full bg-[#F8F9FC] py-2 pr-4 pl-10 text-sm text-[#000424] placeholder-[#686973] focus:ring-0 focus:outline-none"
+            />
+          </div>
+
+          {/* User Profile */}
+          <div className="flex cursor-pointer items-center space-x-3 rounded-lg px-3 py-2 hover:bg-gray-50">
             {/* User Avatar */}
-            <div className="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-300">
               {user?.avatar ? (
                 <img
                   src={user.avatar}
                   alt={user.name}
-                  className="h-8 w-8 rounded-full object-cover"
+                  className="h-12 w-12 rounded-full object-cover"
                 />
               ) : (
                 <span className="text-sm font-medium text-gray-600">
@@ -54,14 +51,15 @@ export function Header() {
                 </span>
               )}
             </div>
-            
+
             {/* User Info */}
             <div className="text-right">
-              <p className="text-sm font-medium text-gray-900">{user?.name}</p>
-              <p className="text-xs text-gray-500">{USER_ROLES.ADMIN}</p>
+              <p className="text-xl font-medium">{user?.name}</p>
+              <GradientText
+                className="text-sm font-extrabold"
+                text={`${USER_ROLES.ADMIN}`}
+              />
             </div>
-            
-            <ChevronDown className="h-4 w-4 text-gray-400" />
           </div>
         </div>
       </div>

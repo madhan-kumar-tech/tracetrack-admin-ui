@@ -22,7 +22,7 @@ interface TableProps<T> {
   pageSize?: number;
 }
 
-export function Table<T extends Record<string, unknown>>({
+export function CustomTable<T extends Record<string, unknown>>({
   data,
   columns,
   isLoading = false,
@@ -31,62 +31,48 @@ export function Table<T extends Record<string, unknown>>({
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(initialPageSize);
 
-  // Show loading state
-  if (isLoading) {
-    return <TableLoader />;
-  }
+  if (isLoading) return <TableLoader />;
 
-  // Calculate pagination
   const totalPages = Math.ceil(data.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentData = data.slice(startIndex, endIndex);
 
-  const goToPage = (page: number) => {
+  const goToPage = (page: number) =>
     setCurrentPage(Math.max(1, Math.min(page, totalPages)));
-  };
-
-  const goToFirstPage = () => setCurrentPage(1);
-  const goToLastPage = () => setCurrentPage(totalPages);
-  const goToPreviousPage = () => goToPage(currentPage - 1);
-  const goToNextPage = () => goToPage(currentPage + 1);
 
   if (data.length === 0) {
     return (
-      <div className="py-8 text-center">
-        <p className="text-gray-500">No data available</p>
-      </div>
+      <div className="py-8 text-center text-gray-500">No data available</div>
     );
   }
 
   return (
     <div className="space-y-0">
-      {/* Table Container with Horizontal Scroll */}
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-300">
-          <thead className="border-b border-gray-200 bg-gray-50">
-            <tr>
+        <table className="min-w-full border-separate border-spacing-y-3">
+          <thead>
+            <tr className="bg-[#F8F9FB]">
               {columns.map(column => (
                 <th
                   key={String(column.key)}
-                  className="px-4 py-3 text-left text-sm font-semibold tracking-wide text-gray-700"
+                  className="px-6 py-3 text-left text-sm font-semibold text-[#000424]"
                 >
                   {column.label}
                 </th>
               ))}
             </tr>
           </thead>
-
-          <tbody className="divide-y divide-gray-100 bg-white">
+          <tbody>
             {currentData.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
-                className="transition-colors duration-200 hover:bg-gray-50"
+                className="border border-gray-200 transition-colors hover:bg-gray-50"
               >
                 {columns.map(column => (
                   <td
                     key={String(column.key)}
-                    className="px-4 py-3 text-sm text-gray-900"
+                    className="px-6 py-3 text-sm text-[#686973]"
                   >
                     {column.render
                       ? column.render(row[column.key], row)
@@ -101,7 +87,7 @@ export function Table<T extends Record<string, unknown>>({
 
       {/* Pagination */}
       <div className="flex flex-col items-start justify-between gap-4 border-t border-gray-200 px-4 py-3 sm:flex-row sm:items-center">
-        {/* Page Size Selector */}
+        {/* Page Size */}
         <div className="flex items-center space-x-2">
           <span className="hidden text-sm text-gray-700 sm:inline">Show</span>
           <select
@@ -123,21 +109,18 @@ export function Table<T extends Record<string, unknown>>({
           </span>
         </div>
 
-        {/* Results Info */}
-        <div className="flex items-center">
-          <span className="text-sm text-gray-700">
-            <span className="hidden sm:inline">Showing </span>
-            {startIndex + 1}-{Math.min(endIndex, data.length)} of {data.length}
-            <span className="hidden sm:inline"> entries</span>
-          </span>
+        {/* Info */}
+        <div className="text-sm text-gray-700">
+          Showing {startIndex + 1}-{Math.min(endIndex, data.length)} of{' '}
+          {data.length}
         </div>
 
-        {/* Pagination Controls */}
+        {/* Controls */}
         <div className="flex items-center space-x-1">
           <Button
             variant="outline"
             size="sm"
-            onClick={goToFirstPage}
+            onClick={() => goToPage(1)}
             disabled={currentPage === 1}
             className="hidden sm:inline-flex"
           >
@@ -146,54 +129,43 @@ export function Table<T extends Record<string, unknown>>({
           <Button
             variant="outline"
             size="sm"
-            onClick={goToPreviousPage}
+            onClick={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
           >
             <ChevronLeft className="h-4 w-4" />
-            <span className="sr-only">Previous</span>
           </Button>
+          {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+            let pageNum;
+            if (totalPages <= 5) pageNum = i + 1;
+            else if (currentPage <= 3) pageNum = i + 1;
+            else if (currentPage >= totalPages - 2)
+              pageNum = totalPages - 4 + i;
+            else pageNum = currentPage - 2 + i;
 
-          {/* Page numbers - responsive */}
-          <div className="flex items-center space-x-1">
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              let pageNum;
-              if (totalPages <= 5) {
-                pageNum = i + 1;
-              } else if (currentPage <= 3) {
-                pageNum = i + 1;
-              } else if (currentPage >= totalPages - 2) {
-                pageNum = totalPages - 4 + i;
-              } else {
-                pageNum = currentPage - 2 + i;
-              }
-
-              return (
-                <Button
-                  key={pageNum}
-                  variant={currentPage === pageNum ? 'primary' : 'outline'}
-                  size="sm"
-                  onClick={() => goToPage(pageNum)}
-                  className={`h-8 w-8 p-0 text-xs ${i >= 3 ? 'hidden sm:inline-flex' : ''}`}
-                >
-                  {pageNum}
-                </Button>
-              );
-            })}
-          </div>
-
+            return (
+              <Button
+                key={pageNum}
+                variant={currentPage === pageNum ? 'primary' : 'outline'}
+                size="sm"
+                onClick={() => goToPage(pageNum)}
+                className="h-8 w-8 p-0 text-xs"
+              >
+                {pageNum}
+              </Button>
+            );
+          })}
           <Button
             variant="outline"
             size="sm"
-            onClick={goToNextPage}
+            onClick={() => goToPage(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
             <ChevronRight className="h-4 w-4" />
-            <span className="sr-only">Next</span>
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={goToLastPage}
+            onClick={() => goToPage(totalPages)}
             disabled={currentPage === totalPages}
             className="hidden sm:inline-flex"
           >

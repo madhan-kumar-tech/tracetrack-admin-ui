@@ -6,6 +6,7 @@ import { Button, Input, Checkbox } from '../ui';
 import { useAuthStore } from '../../stores';
 import envelopeIcon from '../../assets/envelope-icon.svg';
 import lockIcon from '../../assets/lock-icon.svg';
+import GradientText from '../ui/gradientText';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email format'),
@@ -69,7 +70,7 @@ export function LoginForm() {
         label="Email"
         type="email"
         error={errors.email?.message}
-        icon={<img src={envelopeIcon} alt="email" className="w-5 h-5" />}
+        icon={<img src={envelopeIcon} alt="email" className="h-5 w-5" />}
         {...register('email')}
       />
 
@@ -77,23 +78,23 @@ export function LoginForm() {
         label="Password"
         type="password"
         error={errors.password?.message}
-        icon={<img src={lockIcon} alt="password" className="w-5 h-5" />}
+        icon={<img src={lockIcon} alt="password" className="h-5 w-5" />}
         {...register('password')}
       />
 
       <div className="flex items-center justify-between">
-        <Checkbox
-          label="Keep me signed in"
-          {...register('keepSignedIn')}
-        />
-        <a href="#" className="text-sm text-primary-600 hover:underline">
-          Forgot password?
+        <Checkbox label="Keep me signed in" {...register('keepSignedIn')} />
+        <a href="#" className="text-sm underline">
+          <GradientText
+            className="font-regular underline"
+            text="Forgot password?"
+          />
         </a>
       </div>
 
       <Button
         type="submit"
-        className="w-full bg-gradient-to-r from-primary-700 to-primary-500 hover:from-primary-800 hover:to-primary-600"
+        className="from-primary-700 to-primary-500 hover:from-primary-800 hover:to-primary-600 w-full bg-gradient-to-r"
         isLoading={isSubmitting || isLoading}
         disabled={isSubmitting || isLoading}
       >
