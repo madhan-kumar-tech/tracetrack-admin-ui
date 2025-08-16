@@ -7,3 +7,4 @@ export * from './header';
 export * from './breadcrumb';
 export * from './table';
 export * from './dashboard-card';
+export * from './checkbox';

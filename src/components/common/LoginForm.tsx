@@ -2,12 +2,15 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState } from 'react';
-import { Button, Input } from '../ui';
+import { Button, Input, Checkbox } from '../ui';
 import { useAuthStore } from '../../stores';
+import envelopeIcon from '../../assets/envelope-icon.svg';
+import lockIcon from '../../assets/lock-icon.svg';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email format'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
+  keepSignedIn: z.boolean().optional(),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -25,6 +28,7 @@ export function LoginForm() {
     defaultValues: {
       email: 'admin@tracetrack.com',
       password: 'password123',
+      keepSignedIn: false,
     },
   });
 
@@ -65,6 +69,7 @@ export function LoginForm() {
         label="Email"
         type="email"
         error={errors.email?.message}
+        icon={<img src={envelopeIcon} alt="email" className="w-5 h-5" />}
         {...register('email')}
       />
 
@@ -72,16 +77,27 @@ export function LoginForm() {
         label="Password"
         type="password"
         error={errors.password?.message}
+        icon={<img src={lockIcon} alt="password" className="w-5 h-5" />}
         {...register('password')}
       />
 
+      <div className="flex items-center justify-between">
+        <Checkbox
+          label="Keep me signed in"
+          {...register('keepSignedIn')}
+        />
+        <a href="#" className="text-sm text-primary-600 hover:underline">
+          Forgot password?
+        </a>
+      </div>
+
       <Button
         type="submit"
-        className="w-full"
+        className="w-full bg-gradient-to-r from-primary-700 to-primary-500 hover:from-primary-800 hover:to-primary-600"
         isLoading={isSubmitting || isLoading}
         disabled={isSubmitting || isLoading}
       >
-        {isSubmitting || isLoading ? 'Signing in...' : 'Sign in'}
+        {isSubmitting || isLoading ? 'Signing in...' : 'Sign In'}
       </Button>
 
       <div className="text-center">

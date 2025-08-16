@@ -15,5 +15,9 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  return <>{children}</>;
+  return (
+    <div className="min-h-screen w-full bg-white">
+      {children}
+    </div>
+  );
 }

@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/ui';
 import { LoginForm } from '../components/common';
 import { useAuthStore } from '../stores';
+import loginBg from '../assets/login_bg.svg';
+import logo from '../assets/logo.svg';
+import loginBgRight from '../assets/login_bg_right.svg';
 
 export function HomePage() {
-  const { user, isAuthenticated, logout } = useAuthStore();
+  const { user, isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
 
   // Redirect to dashboard if authenticated
@@ -16,47 +18,36 @@ export function HomePage() {
   }, [isAuthenticated, user, navigate]);
 
   return (
-    <div
-      data-testid="home-page"
-      className="flex min-h-screen flex-col items-center justify-center bg-gray-50"
-    >
-      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-md">
-        <div className="mb-6 text-center">
-          <h1 className="mb-2 text-2xl font-bold text-gray-900">
-            Welcome to TraceTrack Admin
-          </h1>
-          <p className="text-gray-600">
-            Please sign in to continue to your dashboard
-          </p>
-        </div>
-
-        {isAuthenticated ? (
-          <div className="space-y-4">
-            <div className="text-center">
-              <p className="text-gray-600">Welcome back, {user?.name}!</p>
-              <p className="text-sm text-gray-500">{user?.email}</p>
+    <div className="fixed inset-0 min-h-screen w-full flex">
+      {/* Left: Illustration */}
+      <div className="hidden md:flex w-1/2 h-full bg-white-100 relative">
+        <img
+          src={loginBg}
+          alt="Map Illustration"
+          className="absolute inset-0 w-full h-full object-cover"
+          draggable={false}
+        />
+      </div>
+      {/* Right: Login Form + Right Illustration */}
+      <div className="flex-1 flex flex-row h-full relative bg-white">
+        <div className="flex-1 flex flex-col justify-center items-center px-8 py-12 relative z-10">
+          <div className="w-full max-w-md mx-auto">
+            <div className="flex flex-col items-center mb-8">
+              <img src={logo} alt="Tracetrack Logo" className="h-50 w-50 mb-2" />
             </div>
-            <div className="flex space-x-2">
-              <Button
-                onClick={() => navigate('/admin/dashboard')}
-                className="flex-1"
-              >
-                Go to Dashboard
-              </Button>
-              <Button onClick={logout} variant="outline" className="flex-1">
-                Logout
-              </Button>
+            <div className="bg-white rounded-lg shadow-none p-0">
+              <LoginForm />
             </div>
           </div>
-        ) : (
-          <LoginForm />
-        )}
-
-        <div className="mt-6 border-t border-gray-200 pt-6">
-          <p className="text-center text-xs text-gray-500">
-            Built with React 19, TypeScript, Vite, Tailwind CSS v4, Zustand, and
-            TanStack Query
-          </p>
+        </div>
+        {/* Right-side Illustration */}
+        <div className="hidden lg:block absolute inset-y-0 right-0 w-1/2 h-full pointer-events-none">
+          <img
+            src={loginBgRight}
+            alt="Right Illustration"
+            className="w-full h-full object-cover"
+            draggable={false}
+          />
         </div>
       </div>
     </div>
