@@ -93,6 +93,7 @@ export function LoginForm() {
       </div>
 
       <Button
+        size="md"
         type="submit"
         className="from-primary-700 to-primary-500 hover:from-primary-800 hover:to-primary-600 w-full bg-gradient-to-r"
         isLoading={isSubmitting || isLoading}
