@@ -4,7 +4,6 @@ export * from './loading-spinner';
 export * from './loaders';
 export * from './sidebar';
 export * from './header';
-export * from './breadcrumb';
 export * from './table';
 export * from './dashboard-card';
 export * from './checkbox';

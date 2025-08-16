@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { StatCard } from './StatCard';
+import { useNavigate } from 'react-router-dom';
+import { CardGrid } from '../common/CardGrid';
+import type { CardGridItem } from '../common/CardGrid';
 import addNewIcon from '../../assets/add_new_icon.svg';
 import cardDesign from '../../assets/card_design.svg';
 import GradientText from '../ui/gradientText';
-import Modal from '../ui/Modal';
+import Modal from '../ui/modal';
 
 export function StatsGrid({
   stats,
@@ -11,6 +13,7 @@ export function StatsGrid({
   stats: { icon: string; title: string; value: string }[];
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const fields = [
     {
@@ -45,17 +48,26 @@ export function StatsGrid({
     setIsModalOpen(false);
   };
 
+  const cardItems: CardGridItem[] = stats.map(stat => ({
+    ...stat,
+    onClick: () => {
+      // Example: navigate based on title, you can adjust as needed
+      if (stat.title === 'Total Vehicles') navigate('/admin/stocks');
+      else if (stat.title === 'Active Vehicles')
+        navigate('/admin/stocks?tab=active');
+      else if (stat.title === 'Expired Vehicles')
+        navigate('/admin/stocks?tab=expired');
+      else if (stat.title === 'Inactive Vehicles')
+        navigate('/admin/stocks?tab=inactive');
+      else if (stat.title === 'Stock') navigate('/admin/stocks?tab=stock');
+    },
+  }));
+
   return (
     <>
-      <div className="grid grid-cols-1 justify-center gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map(stat => (
-          <div key={stat.title} className="flex justify-center">
-            <StatCard {...stat} />
-          </div>
-        ))}
-
-        {/* Add New Device Card */}
-        <div className="flex justify-center">
+      <CardGrid
+        items={cardItems}
+        addNewCard={
           <div
             onClick={() => setIsModalOpen(true)}
             className="relative flex min-h-[182px] cursor-pointer flex-col justify-between overflow-hidden rounded-2xl bg-white p-6 shadow transition hover:shadow-lg"
@@ -85,9 +97,8 @@ export function StatsGrid({
               />
             </div>
           </div>
-        </div>
-      </div>
-
+        }
+      />
       {/* Modal */}
       <Modal
         isOpen={isModalOpen}

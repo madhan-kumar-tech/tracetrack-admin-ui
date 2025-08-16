@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../../stores/auth';
 import { useSidebarStore } from '../../stores/sidebar';
-import { Sidebar, Header, Breadcrumb } from '../ui';
+import { Sidebar, Header } from '../ui';
 
 export function AuthenticatedLayout() {
   const { isAuthenticated } = useAuthStore();
@@ -21,7 +21,6 @@ export function AuthenticatedLayout() {
         className={`pt-16 transition-all duration-300 ${isCollapsed ? 'lg:ml-16' : 'lg:ml-64'} ml-0`}
       >
         <div className="p-4 lg:p-6">
-          <Breadcrumb />
           <Outlet />
         </div>
       </main>

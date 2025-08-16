@@ -4,15 +4,20 @@ export function StatCard({
   icon,
   title,
   value,
+  onClick,
 }: {
   icon: string;
   title: string;
   value: string;
+  onClick?: () => void;
 }) {
   return (
     <div
-      className="relative flex flex-col justify-between overflow-hidden rounded-2xl bg-white p-6 shadow"
+      className="relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl bg-white p-6 shadow transition hover:shadow-lg"
       style={{ maxWidth: 366, width: '100%', height: 182 }}
+      onClick={onClick}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
     >
       {/* Right-side decorative SVG */}
       <img

@@ -26,7 +26,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary:
-        'bg-gradient-to-t from-[#A60D4F] to-[#660033] text-white hover:from-[#8a0b41] hover:to-[#4d0026] focus:ring-[#A60D4F]',
+        'bg-gradient-to-t from-[#660033] to-[#A60D4F] text-white hover:from-[#8a0b41] hover:to-[#4d0026] focus:ring-[#A60D4F]',
       secondary:
         'bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500',
       outline:

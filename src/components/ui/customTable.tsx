@@ -25,11 +25,9 @@ export function CustomTable<T extends Record<string, unknown>>({
   data,
   columns,
   isLoading = false,
-  pageSize: initialPageSize = 10,
 }: TableProps<T>) {
   const [currentPage, setCurrentPage] = useState(1);
-  // eslint-disable-next-line
-  const [pageSize, setPageSize] = useState(initialPageSize);
+  const pageSize = 10;
 
   if (isLoading) return <TableLoader />;
 
@@ -50,29 +48,41 @@ export function CustomTable<T extends Record<string, unknown>>({
   return (
     <div className="space-y-0">
       <div className="overflow-x-auto">
-        <table className="min-w-full border-separate border-spacing-y-3">
+        {/* gaps between rows */}
+        <table className="min-w-full border-separate border-spacing-y-3 text-left">
           <thead>
-            <tr className="bg-[#F8F9FB]">
+            <tr className="bg-[#F5F7F9]">
               {columns.map(column => (
                 <th
                   key={String(column.key)}
-                  className="px-6 py-3 text-left text-sm font-semibold text-[#000424]"
+                  className="h-16 px-6 py-3 text-left text-lg font-normal text-[#000424]"
                 >
                   {column.label}
                 </th>
               ))}
             </tr>
           </thead>
+
           <tbody>
             {currentData.map((row, rowIndex) => (
-              <tr
-                key={rowIndex}
-                className="border border-gray-200 transition-colors hover:bg-gray-50"
-              >
-                {columns.map(column => (
+              // group so we can hover all cells together
+              <tr key={rowIndex} className="group">
+                {columns.map((column, colIdx) => (
                   <td
                     key={String(column.key)}
-                    className="px-6 py-3 text-sm text-[#686973]"
+                    className={[
+                      'px-6 py-3 text-base text-[#686973] transition-colors',
+                      // outer-only borders (light gray)
+                      'border-t border-b border-[#E4E3E8]',
+                      colIdx === 0
+                        ? 'first:overflow-hidden first:rounded-l-lg first:border-l'
+                        : '',
+                      colIdx === columns.length - 1
+                        ? 'last:overflow-hidden last:rounded-r-lg last:border-r'
+                        : '',
+                      // row hover effect
+                      'group-hover:bg-gray-50',
+                    ].join(' ')}
                   >
                     {column.render
                       ? column.render(row[column.key], row)
@@ -86,8 +96,8 @@ export function CustomTable<T extends Record<string, unknown>>({
       </div>
 
       {/* Pagination */}
-      <div className="flex flex-col items-start justify-between gap-4 border-t border-gray-200 px-4 py-3 sm:flex-row sm:items-center">
-        <div className="flex items-center gap-3 border-gray-200 px-4 py-3">
+      <div className="flex flex-col items-start justify-between gap-4 border-gray-300 px-4 py-3 sm:flex-row sm:items-center">
+        <div className="flex items-center gap-3 px-4 py-3">
           {/* Current Page Input */}
           <input
             type="number"
@@ -100,7 +110,7 @@ export function CustomTable<T extends Record<string, unknown>>({
                 setCurrentPage(page);
               }
             }}
-            className="h-8 w-10 rounded border border-[#C6C7CA] text-center text-sm text-[#000424] focus:border-[#000424] focus:outline-none"
+            className="h-8 w-10 rounded border border-gray-300 text-center text-sm text-[#000424] focus:border-[#000424] focus:outline-none"
           />
 
           {/* Info Text */}

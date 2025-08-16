@@ -5,6 +5,7 @@ import { queryClient } from './config/query-client';
 import { HomePage, DetailPage } from './pages';
 import { AuthenticatedLayout } from './components/layouts';
 import Dashboard from './pages/Dashboard';
+import StocksPage from './pages/StocksPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="dashboard/:type" element={<DetailPage />} />
             <Route path="requests" element={<div>Requests Page</div>} />
             <Route path="clients" element={<div>Clients Page</div>} />
+            <Route path="stocks" element={<StocksPage />} />
             {/* Add more protected routes here without individual protection */}
             {/* <Route path="users" element={<UsersPage />} /> */}
             {/* <Route path="settings" element={<SettingsPage />} /> */}
