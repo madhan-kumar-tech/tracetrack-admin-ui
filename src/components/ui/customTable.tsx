@@ -6,7 +6,6 @@ import {
   ChevronsRight,
 } from 'lucide-react';
 import { Button } from './button';
-import { TABLE_PAGE_SIZES } from '../../constants';
 import { TableLoader } from './loaders';
 
 export interface Column<T> {
@@ -29,6 +28,7 @@ export function CustomTable<T extends Record<string, unknown>>({
   pageSize: initialPageSize = 10,
 }: TableProps<T>) {
   const [currentPage, setCurrentPage] = useState(1);
+  // eslint-disable-next-line
   const [pageSize, setPageSize] = useState(initialPageSize);
 
   if (isLoading) return <TableLoader />;
@@ -87,32 +87,27 @@ export function CustomTable<T extends Record<string, unknown>>({
 
       {/* Pagination */}
       <div className="flex flex-col items-start justify-between gap-4 border-t border-gray-200 px-4 py-3 sm:flex-row sm:items-center">
-        {/* Page Size */}
-        <div className="flex items-center space-x-2">
-          <span className="hidden text-sm text-gray-700 sm:inline">Show</span>
-          <select
-            value={pageSize}
+        <div className="flex items-center gap-3 border-gray-200 px-4 py-3">
+          {/* Current Page Input */}
+          <input
+            type="number"
+            min={1}
+            max={totalPages}
+            value={currentPage}
             onChange={e => {
-              setPageSize(Number(e.target.value));
-              setCurrentPage(1);
+              const page = Number(e.target.value);
+              if (!isNaN(page) && page >= 1 && page <= totalPages) {
+                setCurrentPage(page);
+              }
             }}
-            className="rounded-md border border-gray-300 px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          >
-            {TABLE_PAGE_SIZES.map(size => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-          <span className="hidden text-sm text-gray-700 sm:inline">
-            entries
-          </span>
-        </div>
+            className="h-8 w-10 rounded border border-[#C6C7CA] text-center text-sm text-[#000424] focus:border-[#000424] focus:outline-none"
+          />
 
-        {/* Info */}
-        <div className="text-sm text-gray-700">
-          Showing {startIndex + 1}-{Math.min(endIndex, data.length)} of{' '}
-          {data.length}
+          {/* Info Text */}
+          <div className="text-sm text-[#686973]">
+            Showing {startIndex + 1} - {Math.min(endIndex, data.length)} of{' '}
+            {data.length}
+          </div>
         </div>
 
         {/* Controls */}
