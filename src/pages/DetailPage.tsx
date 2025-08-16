@@ -5,11 +5,41 @@ import { DASHBOARD_CARDS } from '../constants';
 // Sample data for different detail pages
 const getDetailData = (type: string) => {
   const baseData = [
-    { id: 1, name: 'John Doe', email: 'john@example.com', status: 'Active', date: '2024-01-15' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'Pending', date: '2024-01-14' },
-    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', status: 'Completed', date: '2024-01-13' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', status: 'Active', date: '2024-01-12' },
-    { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', status: 'Inactive', date: '2024-01-11' },
+    {
+      id: 1,
+      name: 'John Doe',
+      email: 'john@example.com',
+      status: 'Active',
+      date: '2024-01-15',
+    },
+    {
+      id: 2,
+      name: 'Jane Smith',
+      email: 'jane@example.com',
+      status: 'Pending',
+      date: '2024-01-14',
+    },
+    {
+      id: 3,
+      name: 'Bob Johnson',
+      email: 'bob@example.com',
+      status: 'Completed',
+      date: '2024-01-13',
+    },
+    {
+      id: 4,
+      name: 'Alice Brown',
+      email: 'alice@example.com',
+      status: 'Active',
+      date: '2024-01-12',
+    },
+    {
+      id: 5,
+      name: 'Charlie Wilson',
+      email: 'charlie@example.com',
+      status: 'Inactive',
+      date: '2024-01-11',
+    },
   ];
 
   switch (type) {
@@ -31,20 +61,22 @@ const getColumns = (type: string) => {
     { key: 'id' as const, label: 'ID' },
     { key: 'name' as const, label: 'Name' },
     { key: 'email' as const, label: 'Email' },
-    { 
-      key: 'status' as const, 
+    {
+      key: 'status' as const,
       label: 'Status',
       render: (value: string | number) => (
-        <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-          value === 'Active' || value === 'Completed'
-            ? 'bg-green-100 text-green-800' 
-            : value === 'Pending'
-            ? 'bg-yellow-100 text-yellow-800'
-            : 'bg-red-100 text-red-800'
-        }`}>
+        <span
+          className={`rounded-full px-2 py-1 text-xs font-medium ${
+            value === 'Active' || value === 'Completed'
+              ? 'bg-green-100 text-green-800'
+              : value === 'Pending'
+                ? 'bg-yellow-100 text-yellow-800'
+                : 'bg-red-100 text-red-800'
+          }`}
+        >
           {value}
         </span>
-      )
+      ),
     },
     { key: 'date' as const, label: 'Date' },
   ];
@@ -65,12 +97,14 @@ const getColumns = (type: string) => {
 
 export function DetailPage() {
   const { type } = useParams<{ type: string }>();
-  
+
   if (!type) {
     return <div>Invalid page</div>;
   }
 
-  const card = DASHBOARD_CARDS.find(card => card.route === `/admin/dashboard/${type}`);
+  const card = DASHBOARD_CARDS.find(
+    card => card.route === `/admin/dashboard/${type}`
+  );
   const data = getDetailData(type);
   const columns = getColumns(type);
 
@@ -81,23 +115,27 @@ export function DetailPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="rounded-lg bg-white p-6 shadow">
         <div className="flex items-center space-x-4">
-          <div className={`p-3 rounded-lg ${card.color}`}>
+          <div className={`rounded-lg p-3 ${card.color}`}>
             <card.icon className="h-6 w-6 text-white" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{card.title}</h1>
-            <p className="text-gray-600">Detailed view of {card.title.toLowerCase()}</p>
+            <p className="text-gray-600">
+              Detailed view of {card.title.toLowerCase()}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Stats Card */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="rounded-lg bg-white p-6 shadow">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <div>
-            <h3 className="text-sm font-medium text-gray-500">Total {card.title}</h3>
+            <h3 className="text-sm font-medium text-gray-500">
+              Total {card.title}
+            </h3>
             <p className="text-2xl font-bold text-gray-900">{card.value}</p>
           </div>
           <div>
@@ -112,11 +150,14 @@ export function DetailPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg shadow">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">{card.title} List</h2>
+      <div className="rounded-lg bg-white shadow">
+        <div className="border-b border-gray-200 p-6">
+          <h2 className="text-lg font-medium text-gray-900">
+            {card.title} List
+          </h2>
         </div>
         <div className="p-6">
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           <Table data={data as any} columns={columns as any} />
         </div>
       </div>

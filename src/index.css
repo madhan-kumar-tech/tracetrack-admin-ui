@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --font-family-sans: 'Inter', system-ui, sans-serif;
   --font-jost: 'Jost', sans-serif;
   --color-primary-50: #fbeaf3;
-  --color-primary-500: #A60D4F;
-  --color-primary-600: #A60D4F;
+  --color-primary-500: #a60d4f;
+  --color-primary-600: #a60d4f;
   --color-primary-700: #660033;
-  
+
   --color-gray-50: #f9fafb;
   --color-gray-100: #f3f4f6;
   --color-gray-200: #e5e7eb;
@@ -18,26 +18,28 @@
   --color-gray-600: #4b5563;
   --color-gray-700: #374151;
   --color-gray-900: #111827;
-  
+
   --color-red-500: #ef4444;
   --color-red-600: #dc2626;
-  
+
   --color-green-600: #16a34a;
 }
 
 @layer base {
   body {
     font-family: var(--font-family-sans);
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors;
+    @apply bg-primary-600 hover:bg-primary-700 rounded-lg px-4 py-2 font-medium text-white transition-colors;
   }
-  
+
   .btn-secondary {
-    @apply bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium py-2 px-4 rounded-lg transition-colors;
+    @apply rounded-lg bg-gray-100 px-4 py-2 font-medium text-gray-900 transition-colors hover:bg-gray-200;
   }
 }
